@@ -1,0 +1,20 @@
+ultralytics>=8.0.0
+opencv-python>=4.8.0.76
+numpy>=1.24.0
+scipy>=1.11.0
+tqdm>=4.66.0
+ruamel.yaml>=0.17.0
+
+
+
+1) ODD category restituisce sempre lane_branch 
+2) ODD sub category restituisce sempre right 
+3) Road type esce sempre branch 
+4) Num_lanes sempre 2 
+5) Has_intersection sempre 1 
+6) il wheather risulta sempre clear e la visibilità sempre good, come la weather intensity esce none 
+7) Il traffic density esce sempre low 
+8) L'ego max speed spesso raggiunge valori eccessivi e non credo sia espresso in km/h 
+9)La probability of collision max e mean sono vuote 
+10) il dto min in caso di collissione dovrebbe essere 0 
+11) Collision type e collsion time sono sempre vuoti

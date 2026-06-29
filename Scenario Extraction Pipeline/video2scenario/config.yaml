@@ -1,0 +1,73 @@
+# ==========================
+# YOLO + Tracking Parameters
+# ==========================
+classes: [person, bicycle, car, motorcycle, bus, truck]
+confidence: 0.25
+imgsz: 960
+
+# Omografia per stima distanza (metri)
+rect_w_m: 3.5
+rect_h_m: 10.0
+
+# Filtri di smoothing
+savgol_window: 9
+savgol_poly: 2
+
+
+# ==========================
+# SORA / SVL SIMULATOR
+# ==========================
+sora:
+  ip: "127.0.0.1"
+  port: 8181
+
+  # Mappe visibili nella UI Streamlit
+  # SOLO mappe effettivamente presenti nel tuo SVL 2021.3
+  maps:
+    - BorregasAve
+    - StraightRoad
+    - SingleLaneRoad
+
+  # Veicoli disponibili (compatibili con Apollo 6.0)
+  vehicles:
+    - Lincoln2017MKZ
+    - Jaguar2015XE
+    - Lexus2016RXHybrid
+
+  # Offset globale applicato allo scenario video → mondo SVL
+  offset:
+    x: 50.0
+    y: 0.0
+    z: 0.0
+
+
+# ==========================
+# APOLLO 6.0 (su GCE via Tailscale)
+# ==========================
+apollo:
+  dreamview_ip: "100.92.58.9"
+  dreamview_port: 8888
+
+  bridge_ip: "100.92.58.9"
+  bridge_port: 9090
+
+  # Modello EGO che utilizza Dreamview
+  vehicle: "Lincoln2017MKZ"
+
+
+# ==========================
+# Path LOCALI (VERSIONE "PROVA")
+# ==========================
+paths:
+  video_input: "/home/giuseppe/Scrivania/Prova/video2scenario/video.mp4"
+  scenario_output_dir: "/home/giuseppe/Scrivania/Prova/video2scenario/outputs"
+  raw_scenario_file: "scenario.json"
+
+
+# ==========================
+# Opzioni scenario
+# ==========================
+scenario:
+  fps: 20
+  world_scale: 1.0
+  debug_plots: false
