@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 st.title("📊 Advanced CSV Comparison Dashboard")
 
 # =====================================================
-# UPLOAD MULTIPLI CSV
+# UPLOAD MULTIPLE CSV
 # =====================================================
 uploaded_files = st.file_uploader(
     "Upload 1 or more csv",
@@ -21,7 +21,7 @@ if not uploaded_files:
     st.stop()
 
 # =====================================================
-# LETTURA E UNIONE DATASET
+# MERGE DATASET
 # =====================================================
 dataframes = []
 for file in uploaded_files:
@@ -33,7 +33,7 @@ df = pd.concat(dataframes, ignore_index=True)
 columns = df.columns.tolist()
 
 # =====================================================
-# SIDEBAR CONFIGURAZIONE
+# SIDEBAR CONFIGURATION
 # =====================================================
 st.sidebar.header("⚙️ Configuration")
 
@@ -45,7 +45,7 @@ num_charts = st.sidebar.number_input(
 )
 
 # =====================================================
-# FILTRI DINAMICI GLOBALI
+# DYNAMIC GLOBAL FILTERS
 # =====================================================
 st.sidebar.header("🔎 Filters")
 
@@ -65,7 +65,7 @@ for col in columns:
             ]
 
 # =====================================================
-# COLOR PICKER PER CSV (CON COLORI AUTOMATICI DEFAULT)
+# COLOR PICKER FOR CSV 
 # =====================================================
 color_map = {}
 
@@ -89,7 +89,7 @@ if "source_file" in filtered_df.columns:
         )
 
 # =====================================================
-# CREAZIONE MULTI-GRAFICI
+# CREATION MULTI-GRAPH
 # =====================================================
 for i in range(num_charts):
 
@@ -130,7 +130,7 @@ for i in range(num_charts):
         color_col = None
 
     # =====================================================
-    # GENERAZIONE FIGURA
+    # GENERATE FIGURE
     # =====================================================
     if chart_type == "Line":
         fig = px.line(
@@ -195,7 +195,7 @@ for i in range(num_charts):
             )
 
 # =====================================================
-# TABELLA DATI
+# Data Table
 # =====================================================
 with st.expander("📄 View filtered data"):
     st.dataframe(filtered_df)

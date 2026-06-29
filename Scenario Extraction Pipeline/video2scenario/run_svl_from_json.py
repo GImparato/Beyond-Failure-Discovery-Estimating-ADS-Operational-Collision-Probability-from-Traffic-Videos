@@ -7,7 +7,7 @@ from environs import Env
 
 
 # ============================================================
-#   MAPPE SUPPORTATE (SVL 2021.3)
+#   SUPPORTED MAPS (SVL 2021.3)
 # ============================================================
 MAP_IDS = {
     "BorregasAve": lgsvl.wise.DefaultAssets.map_borregasave,
@@ -16,7 +16,7 @@ MAP_IDS = {
 }
 
 # ============================================================
-#   UUID VEICOLI (quelli standard; aggiorneremo quando avrai gli LGSVL)
+#   VEHICLE UUIDS
 # ============================================================
 EGO_MODELS_UUID = {
     "Jaguar2015XE": "88c8ce1f-7e54-4bf2-8baf-3a5eac2d6d34",
@@ -28,7 +28,7 @@ CANDIDATE_MODELS = ["Lincoln2017MKZ", "Jaguar2015XE", "Lexus2016RXHybrid"]
 
 
 # ============================================================
-#   FUNZIONE SPAWN EGO (versione robusta)
+#   EGO SPAWN FUNCTION
 # ============================================================
 def spawn_ego(sim, used_spawn, args):
     ego_state = lgsvl.AgentState()
@@ -37,58 +37,58 @@ def spawn_ego(sim, used_spawn, args):
 
     for model_name in CANDIDATE_MODELS:
         uuid = EGO_MODELS_UUID[model_name]
-        print(f"[EGO] Tentativo spawn: {model_name} (UUID {uuid})")
+        print(f"[EGO] Spawn attempt: {model_name} (UUID {uuid})")
 
         try:
             ego = sim.add_agent(uuid, lgsvl.AgentType.EGO, ego_state)
-            print(f"[OK] EGO spawnato come {model_name}")
+            print(f"[OK] EGO spawned as {model_name}")
             return ego, model_name
         except Exception as e:
-            print(f"[WARN] Fallito spawn {model_name}: {str(e)}")
+            print(f"[WARN] Spawn failed {model_name}: {str(e)}")
             continue
 
-    raise RuntimeError("❌ Nessun modello EGO compatibile trovato!")
+    raise RuntimeError("❌ No compatible EGO model found!")
 
 
 # ============================================================
 #   MAIN
 # ============================================================
 def main():
-    parser = argparse.ArgumentParser(description="Esegue scenario JSON su SVL per Apollo 6")
+    parser = argparse.ArgumentParser(description="Runs a JSON scenario in SVL for Apollo 6.")
     parser.add_argument("--scenario", required=True)
     parser.add_argument("--bridge", default="100.92.58.9")
     parser.add_argument("--port", type=int, default=9090)
     parser.add_argument("--duration", type=float, default=60.0)
-    parser.add_argument("--map", default=None, help="Override mappa")
+    parser.add_argument("--map", default=None, help="Map Override")
     args = parser.parse_args()
 
-    print("\n=== AVVIO SCENARIO ===")
+    print("\n=== STARTING SCENARIO ===")
     print(f"Scenario: {args.scenario}")
     print(f"Apollo Bridge: {args.bridge}:{args.port}")
 
     # ------------------------------------------------------------
-    #   CARICA LO SCENARIO JSON
+    #   LOAD THE JSON SCENARIO
     # ------------------------------------------------------------
     with open(args.scenario, "r") as f:
         data = json.load(f)
 
     agents = data.get("agents", [])
 
-    # MAPPA SELEZIONATA
+    # SELECTED MAP
     map_name = args.map or data.get("map", "BorregasAve").replace(" ", "")
     if map_name not in MAP_IDS:
-        print(f"[WARN] Mappa '{map_name}' sconosciuta. Uso BorregasAve.")
+        print(f"[WARN] Unknown map '{map_name}'. Using  BorregasAve.")
         map_name = "BorregasAve"
 
-    print(f"[INFO] Mappa scenario: {map_name}")
+    print(f"[INFO] Scenario map: {map_name}")
 
     # ------------------------------------------------------------
-    #   CONNESSIONE SIMULATORE
+    #   CONNECT TO THE SIMULATOR
     # ------------------------------------------------------------
     sim = lgsvl.Simulator("127.0.0.1", 8181)
 
-    # Carica la mappa giusta
-    print(f"[INFO] Caricamento mappa '{map_name}'...")
+    # Load the selected map
+    print(f"[INFO] Loading map '{map_name}'...")
     scene_id = MAP_IDS[map_name]
 
     if sim.current_scene == scene_id:
@@ -105,17 +105,17 @@ def main():
     # ------------------------------------------------------------
     ego_agent = next((a for a in agents if a["type"].upper() == "EGO"), None)
     if not ego_agent:
-        raise RuntimeError("❌ Nessun agente EGO nello scenario!")
+        raise RuntimeError("❌ No EGO agent found in the scenario!")
 
     ego, used_model = spawn_ego(sim, used_spawn, args)
 
     # ------------------------------------------------------------
     #   DREAMVIEW (Apollo)
     # ------------------------------------------------------------
-    print("[INFO] Connessione Bridge Apollo…")
+    print("[INFO] Connecting to Apollo Bridge…")
     ego.connect_bridge(args.bridge, args.port)
 
-    print("[INFO] Setup Dreamview…")
+    print("[INFO] Dreamview Setup…")
     dv = lgsvl.dreamview.Connection(sim, ego, args.bridge)
 
     dv.set_hd_map(map_name)
@@ -133,7 +133,7 @@ def main():
     ]
     dv.setup_apollo(px, py, modules)
 
-    print("[INFO] Attesa inizializzazione Apollo…")
+    print("[INFO] Waiting for Apollo initialization…")
     time.sleep(3)
 
     # ------------------------------------------------------------
@@ -155,13 +155,13 @@ def main():
         try:
             npc = sim.add_agent(npc_data["vehicleModel"], lgsvl.AgentType.NPC, npc_state)
         except Exception as e:
-            print(f"[WARN] NPC {npc_data['id']} non spawnato: {e}")
+            print(f"[WARN] NPC {npc_data['id']} not spawned: {e}")
             continue
 
     # ------------------------------------------------------------
     #   RUN SIM
     # ------------------------------------------------------------
-    print("[INFO] Sync orario simulatore…")
+    print("[INFO] Synchronize Simulator Time…")
     sim.reset_time()
     sim.set_time_of_day(time.localtime().tm_hour + time.localtime().tm_min/60)
 
@@ -172,7 +172,7 @@ def main():
     while time.time() - start < args.duration:
         sim.run(0.5)
 
-    print("[INFO] Simulazione conclusa.\n")
+    print("[INFO] Simulation completed.\n")
 
 
 if __name__ == "__main__":
