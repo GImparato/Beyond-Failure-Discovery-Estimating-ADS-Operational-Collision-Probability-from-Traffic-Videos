@@ -17,7 +17,7 @@ uploaded_files = st.file_uploader(
 )
 
 if not uploaded_files:
-    st.info("CUpload at least one csv")
+    st.info("Upload at least one csv")
     st.stop()
 
 # =====================================================
