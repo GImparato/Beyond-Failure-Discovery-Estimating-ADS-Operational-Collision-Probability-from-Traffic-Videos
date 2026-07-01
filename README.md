@@ -1,10 +1,10 @@
-# Beyond Failure Discovery: Estimating ADS Operational Collision Probability \\from Traffic Videos
+# Beyond Failure Discovery: Estimating ADS Operational Collision Probability from Traffic Videos
 
 ## Overview
 
-This repository contains the implementation developed for the research project **Operational Safety Assessment of Autonomous Driving Systems from Traffic Videos**.
+This repository contains the implementation developed for the research project **Beyond Failure Discovery: Estimating ADS Operational Collision Probability \from Traffic Videos**.
 
-The proposed framework estimates the operational collision probability of autonomous driving systems by combining traffic video analysis, Large Multimodal Models (LMMs), Operational Design Domain (ODD) characterization, and advanced statistical sampling algorithms.
+The proposed framework estimates the operational collision probability of autonomous driving systems by combining traffic video analysis, Operational Design Domain (ODD) characterization, and advanced statistical sampling algorithms.
 
 The repository provides the complete experimental pipeline adopted in the paper, from traffic video processing to the estimation of collision probability using multiple sampling strategies under different operational profiles.
 
@@ -24,7 +24,7 @@ The repository is organized into the following main components.
 └── ...
 ```
 
-## LMM Pipeline
+## Scenario Extraction Pipeline
 
 This folder contains the complete pipeline responsible for transforming raw traffic videos into structured scenario datasets.
 
@@ -41,7 +41,7 @@ The produced dataset represents the input for all sampling algorithms.
 
 ---
 
-## Sampling Algorithms
+## Sampling Algorithms and Results
 
 This folder contains the complete implementation of all sampling techniques evaluated in the paper.
 
