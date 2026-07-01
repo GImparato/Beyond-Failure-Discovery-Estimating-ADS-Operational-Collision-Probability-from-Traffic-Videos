@@ -75,7 +75,7 @@ if "source_file" in filtered_df.columns:
 
     unique_sources = filtered_df["source_file"].unique()
 
-    # palette automatica plotly
+   
     default_palette = px.colors.qualitative.Plotly
 
     for idx, src in enumerate(unique_sources):
@@ -84,7 +84,7 @@ if "source_file" in filtered_df.columns:
 
         color_map[src] = st.sidebar.color_picker(
             f"Color for {src}",
-            value=default_color,  # colore automatico
+            value=default_color, 
             key=f"color_{src}"
         )
 
