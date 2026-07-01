@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repository contains the implementation developed for the research project **Beyond Failure Discovery: Estimating ADS Operational Collision Probability \from Traffic Videos**.
+This repository contains the implementation developed for the research project **Beyond Failure Discovery: Estimating ADS Operational Collision Probability from Traffic Videos**.
 
 The proposed framework estimates the operational collision probability of autonomous driving systems by combining traffic video analysis, Operational Design Domain (ODD) characterization, and advanced statistical sampling algorithms.
 
